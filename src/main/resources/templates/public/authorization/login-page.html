@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link href="/css/public/authorization/authorization-page.css" rel="stylesheet">
+    <link th:href="@{/css/public/authorization/authorization-page.css}" rel="stylesheet">
 </head>
 <body>
 <div class="page-wrapper">
@@ -19,9 +19,9 @@
                 <div class="form-container__input-wrapper">
                     <input type="password" name="password" placeholder="Enter your password" class="form-container__input" required>
                 </div>
-                <!--                    <div class="form-container__warning-wrapper">-->
-                <!--                        <span class="form-container__warning">Wrong email or password</span>-->
-                <!--                    </div>-->
+                <div th:if="${isAuthenticationFailed}" class="form-container__warning-wrapper">
+                    <span class="form-container__warning">Wrong email or password</span>
+                </div>
                 <div class="form-container__button-wrapper">
                     <button type="submit" class="form-container__button">Log in</button>
                 </div>
