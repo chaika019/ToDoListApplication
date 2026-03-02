@@ -1,8 +1,10 @@
 package by.chaika19.controller.secured;
 
 import by.chaika19.entity.RecordStatus;
+import by.chaika19.entity.User;
 import by.chaika19.entity.dto.RecordsContainerDto;
 import by.chaika19.service.RecordService;
+import by.chaika19.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,16 +14,24 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/account")
 public class PrivateAccountController {
 
+    private final UserService userService;
     private final RecordService recordService;
 
     @Autowired
-    public PrivateAccountController(RecordService recordService) {
+    public PrivateAccountController(UserService userService, RecordService recordService) {
+        this.userService = userService;
         this.recordService = recordService;
     }
 
     @GetMapping()
     public String getMainPage(Model model, @RequestParam(value = "filter", required = false) String filterMode) {
+        User user = userService.getCurrentUser();
+        if (user == null) {
+            return "redirect:/login";
+        }
+
         RecordsContainerDto containerDto = recordService.findAllRecords(filterMode);
+        model.addAttribute("userName", user.getName());
         model.addAttribute("records", containerDto.getRecords());
         model.addAttribute("numberOfDoneRecords",  containerDto.getNumberOfDoneRecords());
         model.addAttribute("numberOfActiveRecords", containerDto.getNumberOfActiveRecords());
