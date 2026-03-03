@@ -1,7 +1,6 @@
 package by.chaika19.controller.secured;
 
 import by.chaika19.entity.RecordStatus;
-import by.chaika19.entity.User;
 import by.chaika19.entity.dto.RecordsContainerDto;
 import by.chaika19.service.RecordService;
 import by.chaika19.service.UserService;
@@ -25,13 +24,8 @@ public class PrivateAccountController {
 
     @GetMapping()
     public String getMainPage(Model model, @RequestParam(value = "filter", required = false) String filterMode) {
-        User user = userService.getCurrentUser();
-        if (user == null) {
-            return "redirect:/login";
-        }
-
         RecordsContainerDto containerDto = recordService.findAllRecords(filterMode);
-        model.addAttribute("userName", user.getName());
+        model.addAttribute("userName", containerDto.getUserName());
         model.addAttribute("records", containerDto.getRecords());
         model.addAttribute("numberOfDoneRecords",  containerDto.getNumberOfDoneRecords());
         model.addAttribute("numberOfActiveRecords", containerDto.getNumberOfActiveRecords());
