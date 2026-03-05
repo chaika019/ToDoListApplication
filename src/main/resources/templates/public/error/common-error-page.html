@@ -2,17 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="#{error.500.title}">Something went wrong</title>
+    <title th:text="#{error.server.title}">Something went wrong</title>
     <link rel="stylesheet" th:href="@{/css/public/error/error-page.css}">
 </head>
 <body>
 <div class="page-wrapper">
     <div class="container">
         <div class="title">
-            <h2 th:text="#{error.500.title}">Something went wrong</h2>
+            <h2 th:text="#{error.server.title}">Something went wrong</h2>
         </div>
         <div class="description">
-            <h4 th:text="#{error.500.desc}">We are already working on the problem</h4>
+            <h4 th:text="#{error.server.desc}">We are already working on the problem</h4>
         </div>
         <div class="navigation">
             <a class="navigation__link" th:href="@{/account}" th:text="#{button.account}">Account Page</a>
