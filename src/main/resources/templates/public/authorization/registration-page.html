@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Create account</title>
@@ -9,26 +9,34 @@
 <div class="page-wrapper">
     <div class="container">
         <div class="header-container">
-            <h2 class="header-container__text">Registration</h2>
+            <h2 class="header-container__text" th:text="#{auth.reg.header}">Registration</h2>
         </div>
         <div class="form-container">
             <form action="/registration" method="post" class="form-container__form">
                 <div class="form-container__input-wrapper">
-                    <input type="text" name="name" placeholder="Enter your name" class="form-container__input" required>
+                    <input type="text" name="name" class="form-container__input" required th:placeholder="#{auth.name.placeholder}">
                 </div>
                 <div class="form-container__input-wrapper">
-                    <input type="email" name="email" placeholder="Enter your email" class="form-container__input" required>
+                    <input type="email" name="email" class="form-container__input" required th:placeholder="#{auth.email.placeholder}">
                 </div>
                 <div class="form-container__input-wrapper">
-                    <input type="password" name="password" placeholder="Enter your password" class="form-container__input" required>
+                    <input type="password" name="password" class="form-container__input" required th:placeholder="#{auth.pass.placeholder}">
                 </div>
                 <div class="form-container__button-wrapper">
-                    <button type="submit" class="form-container__button">Sign up</button>
+                    <button type="submit" class="form-container__button" th:text="#{button.signup}">Sign up</button>
                 </div>
             </form>
         </div>
         <div class="footer-link-container">
-            <span class="footer-link-container__text">Already have an account? <a href="/login" class="footer-link-container__link">Log in</a></span>
+            <span class="footer-link-container__text">
+                [[#{auth.have_account}]]
+                <a class="footer-link-container__link" th:href="@{/login}" th:text="#{button.login}">Log in</a>
+            </span>
+        </div>
+        <div class="auth-languages" style="margin-top: 20px; text-align: center; font-size: 14px;">
+            <a th:href="@{'' (lang='ru')}" style="text-decoration: none; color: #6c757d; font-weight: bold;">RU</a>
+            <span style="color: #dee2e6; margin: 0 10px;">|</span>
+            <a th:href="@{'' (lang='en')}" style="text-decoration: none; color: #6c757d; font-weight: bold;">EN</a>
         </div>
     </div>
 </div>

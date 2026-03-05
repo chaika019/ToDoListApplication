@@ -9,26 +9,36 @@
 <div class="page-wrapper">
     <div class="container">
         <div class="header-container">
-            <h2 class="header-container__text">Login</h2>
+            <h2 class="header-container__text" th:text="#{auth.login.header}">Login</h2>
         </div>
         <div class="form-container">
             <form action="/login" method="post" class="form-container__form">
                 <div class="form-container__input-wrapper">
-                    <input type="email" name="email" placeholder="Enter your email" class="form-container__input" required>
+                    <input type="email" name="email" th:placeholder="#{auth.email.placeholder}" class="form-container__input" required>
                 </div>
                 <div class="form-container__input-wrapper">
-                    <input type="password" name="password" placeholder="Enter your password" class="form-container__input" required>
+                    <input type="password" name="password" th:placeholder="#{auth.pass.placeholder}" class="form-container__input" required>
                 </div>
                 <div th:if="${isAuthenticationFailed}" class="form-container__warning-wrapper">
-                    <span class="form-container__warning">Wrong email or password</span>
+                    <span class="form-container__warning" th:text="#{auth.error.bad_credentials}">Wrong email...</span>
                 </div>
                 <div class="form-container__button-wrapper">
-                    <button type="submit" class="form-container__button">Log in</button>
+                    <button type="submit" class="form-container__button" th:text="#{button.login}">Log in</button>
                 </div>
             </form>
         </div>
         <div class="footer-link-container">
-            <span class="footer-link-container__text">Don't have an account? <a href="/registration" class="footer-link-container__link">Sign up</a></span>
+            <span class="footer-link-container__text">
+                [[#{auth.no_account}]]
+                <a th:href="@{/registration}"
+                   class="footer-link-container__link"
+                   th:text="#{button.signup}">Sign up</a>
+            </span>
+        </div>
+        <div class="auth-languages" style="margin-top: 20px; text-align: center; font-size: 14px;">
+            <a th:href="@{'' (lang='ru')}" style="text-decoration: none; color: #6c757d; font-weight: bold;">RU</a>
+            <span style="color: #dee2e6; margin: 0 10px;">|</span>
+            <a th:href="@{'' (lang='en')}" style="text-decoration: none; color: #6c757d; font-weight: bold;">EN</a>
         </div>
     </div>
 </div>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>ToDo List</title>
-    <link href="/css/private/account-page.css" rel="stylesheet">
-    <link href="/css/fragments/header-fragment.css" rel="stylesheet">
+    <title th:text="#{todo.title}">ToDo List</title>
+    <link th:href="@{/css/private/account-page.css}" rel="stylesheet">
+    <link th:href="@{/css/fragments/header-fragment.css}" rel="stylesheet">
 </head>
 <body>
 <div th:replace="~{fragments/header-fragment.html :: header-fragment (userName=${userName})}"></div>
@@ -11,82 +11,80 @@
     <div class="container">
         <div class="header-container">
             <div class="header__text">
-                <h2>ToDo List</h2>
+                <h2 th:text="#{todo.title}">ToDo List</h2>
             </div>
             <div class="header__statistics">
-                <span>[[${numberOfActiveRecords}]] more to do, [[${numberOfDoneRecords}]] done</span>
+                <span th:text="#{todo.stats(${numberOfActiveRecords}, ${numberOfDoneRecords})}">
+                    0 more to do, 0 done
+                </span>
             </div>
         </div>
         <div class="filter-container">
-            <form th:with="filter=${#strings.toLowerCase(param.filter)}" action="/account" method="get"
-                  class="filter-form">
+            <form class="filter-form" th:with="filter=${#strings.toLowerCase(param.filter)}" action="/account" method="get">
                 <div class="filter-form__input">
-                    <input th:checked="${filter != 'active' and filter != 'done'}" type="radio"
-                           id="filter-form__status_all" name="filter" value="all">
-                    <label for="filter-form__status_all">All</label>
+                    <input id="filter-form__status_all" type="radio" name="filter" value="all"
+                           th:checked="${filter != 'active' and filter != 'done'}">
+                    <label for="filter-form__status_all" th:text="#{todo.filter.all}">All</label>
                 </div>
                 <div class="filter-form__input">
-                    <input th:checked="${filter == 'active'}" type="radio" id="filter-form__status_active"
-                           name="filter" value="active">
-                    <label for="filter-form__status_active">Active</label>
+                    <input id="filter-form__status_active" type="radio" name="filter" value="active"
+                           th:checked="${filter == 'active'}">
+                    <label for="filter-form__status_active" th:text="#{todo.filter.active}">Active</label>
                 </div>
                 <div class="filter-form__input">
-                    <input th:checked="${filter == 'done'}" type="radio" id="filter-form__status_done" name="filter"
-                           value="done">
-                    <label for="filter-form__status_done">Done</label>
+                    <input id="filter-form__status_done" type="radio" name="filter" value="done"
+                           th:checked="${filter == 'done'}">
+                    <label for="filter-form__status_done" th:text="#{todo.filter.done}">Done</label>
                 </div>
-                <button type="submit">Apply</button>
+                <button type="submit" th:text="#{todo.filter.apply}">Apply</button>
             </form>
         </div>
-        <div th:with="isRecordsEmpty=${records == null || records.isEmpty()}" class="records-container">
-            <div th:if="${isRecordsEmpty}" th:switch="${#strings.toLowerCase(param.filter)}" class="hint">
-                <span th:case="'active'">There are no active tasks!</span>
-                <span th:case="'done'">There are no done tasks!</span>
-                <span th:case="*">There are no tasks at all, try to add new one!</span>
+
+        <div class="records-container" th:with="isRecordsEmpty=${records == null || records.isEmpty()}">
+            <div class="hint" th:if="${isRecordsEmpty}" th:switch="${#strings.toLowerCase(param.filter)}">
+                <span th:case="'active'" th:text="#{todo.empty.active}">There are no active tasks!</span>
+                <span th:case="'done'" th:text="#{todo.empty.done}">There are no done tasks!</span>
+                <span th:case="*" th:text="#{todo.empty.all}">There are no tasks at all!</span>
             </div>
-            <div th:if="${!isRecordsEmpty}" th:each="record: ${records}" class="record">
+
+            <div class="record" th:if="${!isRecordsEmpty}" th:each="record: ${records}">
                 <div class="record__title">
-                        <span th:text="${record.title}"
-                              th:classappend="${record.status.name == 'DONE' ? 'record__title_strikethrough' : ''}"></span>
+                    <span th:text="${record.title}"
+                          th:classappend="${record.status.name == 'DONE' ? 'record__title_strikethrough' : ''}">
+                    </span>
                 </div>
                 <div class="record__controls">
-                    <form th:if="${record.status.name == 'ACTIVE'}" action="/account/make-record-done" method="post"
-                          class="record__controls-form">
-                        <input th:value="${record.id}" type="hidden" name="id">
-                        <input th:value="${#strings.toLowerCase(param.filter)}" type="hidden" name="filter">
-                        <button type="submit" class="button_type_approve">
-                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
+                    <form class="record__controls-form" th:if="${record.status.name == 'ACTIVE'}" action="/account/make-record-done" method="post">
+                        <input type="hidden" name="id" th:value="${record.id}">
+                        <input type="hidden" name="filter" th:value="${#strings.toLowerCase(param.filter)}">
+                        <button class="button_type_approve" type="submit">
+                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g clip-path="url(#clip0_258_5036)">
-                                    <path d="M8.5 0C3.808 0 0 3.808 0 8.5C0 13.192 3.808 17 8.5 17C13.192 17 17 13.192 17 8.5C17 3.808 13.192 0 8.5 0ZM7.65 12.257L3.4 8.007L4.5985 6.8085L7.65 9.8515L12.4015 5.1L13.6 6.307L7.65 12.257Z"
-                                          fill="#fff"></path>
+                                    <path d="M8.5 0C3.808 0 0 3.808 0 8.5C0 13.192 3.808 17 8.5 17C13.192 17 17 13.192 17 8.5C17 3.808 13.192 0 8.5 0ZM7.65 12.257L3.4 8.007L4.5985 6.8085L7.65 9.8515L12.4015 5.1L13.6 6.307L7.65 12.257Z" fill="#fff"></path>
                                 </g>
-                                <defs>
-                                    <clipPath id="clip0_258_5036">
-                                        <rect width="17" height="17" fill="white"></rect>
-                                    </clipPath>
-                                </defs>
                             </svg>
                         </button>
                     </form>
-                    <form action="/account/delete-record" method="post" class="record__controls-form">
-                        <input th:value="${record.id}" type="hidden" name="id">
-                        <input th:value="${#strings.toLowerCase(param.filter)}" type="hidden" name="filter">
-                        <button type="submit" class="button_type_close">
+                    <form class="record__controls-form" action="/account/delete-record" method="post">
+                        <input type="hidden" name="id" th:value="${record.id}">
+                        <input type="hidden" name="filter" th:value="${#strings.toLowerCase(param.filter)}">
+                        <button class="button_type_close" type="submit">
                             <svg width="24" height="24" viewBox="0 0 24 24">
-                                <path d="M12.071 13.485l-2.828 2.829-1.415-1.415 2.829-2.828-2.829-2.828 1.415-1.415 2.828 2.829L14.9 7.828l.707.708.707.707-2.829 2.828 2.829 2.829-1.415 1.414-2.828-2.829z"
-                                      fill="#000"></path>
+                                <path d="M12.071 13.485l-2.828 2.829-1.415-1.415 2.829-2.828-2.829-2.828 1.415-1.415 2.828 2.829L14.9 7.828l.707.708.707.707-2.829 2.828 2.829 2.829-1.415 1.414-2.828-2.829z" fill="#000"></path>
                             </svg>
                         </button>
                     </form>
                 </div>
             </div>
         </div>
+
         <div class="management-container">
-            <form action="/account/add-record" method="post" class="management-form">
-                <input type="text" name="title" placeholder="What needs to be done..."
-                       class="management-form__input">
-                <button type="submit" class="management-form__button">Add Record</button>
+            <form class="management-form" action="/account/add-record" method="post">
+                <input class="management-form__input" type="text" name="title" required
+                       th:placeholder="#{todo.input.placeholder}">
+                <button class="management-form__button" type="submit" th:text="#{todo.button.add}">
+                    Add Record
+                </button>
             </form>
         </div>
     </div>

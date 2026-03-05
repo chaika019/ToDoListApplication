@@ -1,31 +1,44 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 <head>
     <meta charset="UTF-8">
     <title>Header Fragment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div th:fragment="header-fragment (userName)" class="navbar-wrapper">
-        <div class="navbar-container">
-            <div class="navbar-container__left-menu">
-                <div class="navbar-container__controls">
-                    <a href="/" class="navbar-container__controls-link">Home</a>
-                </div>
-                <div class="navbar-container__controls">
-                    <a href="/account" class="navbar-container__controls-link">Account</a>
-                </div>
-                <div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')" class="navbar-container__controls">
-                    <a href="/admin" class="navbar-container__controls-link">Management</a>
-                </div>
+<div th:fragment="header-fragment (userName)" class="navbar-wrapper">
+    <div class="navbar-container">
+        <div class="navbar-container__left-menu">
+            <div class="navbar-container__controls">
+                <a class="navbar-container__controls-link" th:href="@{/}" th:text="#{nav.home}">Home</a>
             </div>
-            <div class="navbar-container__right-menu">
-                <div class="navbar-container__controls">
-                    <span class="navbar-container__controls-text">(User: [[${userName}]])</span>
-                    <a href="/logout" class="navbar-container__controls-link">Logout</a>
-                </div>
+            <div class="navbar-container__controls">
+                <a class="navbar-container__controls-link" th:href="@{/account}" th:text="#{nav.account}">Account</a>
+            </div>
+            <div class="navbar-container__controls" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')">
+                <a class="navbar-container__controls-link" th:href="@{/admin}" th:text="#{nav.management}">Management</a>
             </div>
         </div>
+
+        <div class="navbar-container__right-menu" style="display: flex; align-items: center;">
+
+            <div class="navbar-container__languages" style="display: flex; gap: 8px; margin-right: 30px;">
+                <a class="navbar-container__controls-link" th:href="@{'' (lang='ru')}" style="font-weight: bold; text-decoration: none;">RU</a>
+                <span style="color: white;">|</span>
+                <a class="navbar-container__controls-link" th:href="@{'' (lang='en')}" style="font-weight: bold; text-decoration: none;">EN</a>
+            </div>
+
+            <div class="navbar-container__controls" style="display: flex; align-items: center; gap: 15px;">
+        <span class="navbar-container__controls-text" style="white-space: nowrap;">
+            ([[#{nav.user}]]: [[${userName}]])
+        </span>
+                <a class="navbar-container__controls-link" th:href="@{/logout}" th:text="#{nav.logout}">Logout</a>
+            </div>
+
+        </div>
     </div>
+</div>
 </body>
 </html>

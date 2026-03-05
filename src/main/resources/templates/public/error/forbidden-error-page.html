@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Access Denied</title>
-  <link href="/css/public/error/error-page.css" rel="stylesheet">
+  <title th:text="#{error.403.title}">Access Denied</title>
+  <link rel="stylesheet" th:href="@{/css/public/error/error-page.css}">
 </head>
 <body>
 <div class="page-wrapper">
   <div class="container">
     <div class="title">
-      <h2>Access Denied</h2>
+      <h2 th:text="#{error.403.title}">Access Denied</h2>
     </div>
     <div class="description">
-      <h4>Sorry, but you don't have access to this page</h4>
+      <h4 th:text="#{error.403.desc}">Sorry, but you don't have access to this page</h4>
     </div>
     <div class="navigation">
-      <a href="/account">Account Page</a>
+      <a class="navigation__link" th:href="@{/account}" th:text="#{button.account}">Account Page</a>
     </div>
   </div>
 </div>
